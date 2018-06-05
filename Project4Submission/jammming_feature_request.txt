@@ -1,0 +1,40 @@
+                      Design Document Template
+                           June 2, 2018
+
+                            Dave Mraz
+                CodeAcademy Front-end Website Class
+
+
+                            OBJECTIVE
+If a user refreshes the access token, permit the existing playlist information, if any, 
+to survive the refresh.
+
+
+                            BACKGROUND 
+Our users have expressed that they don't like having to re-enter playlist search 
+info if forced to refresh the screen.
+
+                          TECHNICAL DESIGN
+A. Spotify.js
+   
+   1. At the end of the existing savePlaylist method, add 
+      commands to save the existing track TERM value.  My
+      recommendation is to use 'sessionStorage' variables,
+      as once set, they remain static until changed or until
+      the end of this browser session.  The command could 
+      look like:
+      sessionStorage.setItem('srchTerm', searchTerm);
+
+      Put it just after the third 'fetch'.
+
+B. App.js
+   1. method 'search':
+      a. If the sessionStorage.setItem('srchTerm') exists, then
+         save it to a srchIn variable.
+      b. Add an 'if' statement.  If srchIn exists, and has a
+         non-zero length, then return it in 
+         'this.Spotify.search(srchIn)';  if not, then return
+         the existing 'this.Spotify.search(term)'.
+
+
+
